@@ -11,7 +11,7 @@ Coupon Affiliate Platform is a modern web application designed to streamline the
 <li><b>Backend: </b>Node JS and Express for a robust server.</li>
 <li><b>Database: </b> MongoDB for efficient data storage.</li>
 <li><b>Packages: </b>Utilizes ShortURL for URL shortening, Multer for image uploads.</li>
-<li><b>Fomik & Yup : </b>Conrol Forms Data</li>
+<li><b>Fomik & Yup : </b>For pupose of Forms Control</li>
 
 
  
