@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config();
 const cors = require("cors");
 const bodyParse = require("body-parser");
 const server = express();
@@ -31,6 +32,7 @@ const {
   RegisterUser,
   RegisterUserList,
   DeleteUser,
+  UpdateUser
 } = require("./RegisterUser");
 
 
@@ -54,7 +56,7 @@ const {
 } = require("./ManageCoupan");
 
 let ConnectionFunc = async () => {
-  const url = `mongodb+srv://fa7711598:wAZP6ZOw2mgWBZ2M@cluster0.h8dqfxb.mongodb.net/?retryWrites=true&w=majority`;
+  const url = process.env.MONGODB_URI;
   const client = new MongoClient(url);
   return client;
 };
@@ -270,6 +272,16 @@ server.get("/registeruserlist", async (req, resp) => {
 server.post("/deleteuser", async (req, resp) => {
   let result = await Promise.resolve(
     DeleteUser(ConnectionFunc, req.body.ID)
+  ).then((res) => {
+    return res;
+  });
+  resp.json(result);
+});
+
+
+server.post("/updateuser", async (req, resp) => {
+  let result = await Promise.resolve(
+    UpdateUser(ConnectionFunc, req.body)
   ).then((res) => {
     return res;
   });

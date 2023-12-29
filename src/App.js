@@ -18,6 +18,7 @@ import AddCoupan from "./Coupan/AddCoupan";
 import ManageCoupan from "./Coupan/ManageCoupan";
 import UpdateCoupan from "./Coupan/UpdateCoupan";
 import ManageUsers from "./Users/ManageUsers";
+import UpdateUser from "./Users/UpdateUser";
 import CoupanAnalytics from "./Coupan/CoupanAnalytics";
 import { useContext } from "react";
 import { UserRoleContext } from "./Component/ContextFile";
@@ -37,6 +38,7 @@ function App() {
               <Route path="home" element={<HomePage />} />
               <Route path="users" element={<ManageUsers />} />
               <Route path="registeruser" element={<RegisterUser />} />
+              <Route path="updateuser" element={<UpdateUser />} />   
               <Route path="addcategory" element={<RegisterCategory />} />
               <Route path="brand" element={<ManageBrands />} />
               <Route path="brand/register" element={<RegisterBrands />} />

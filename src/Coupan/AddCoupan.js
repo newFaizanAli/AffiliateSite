@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { RegisterCoupanScehma } from "../Component/ValidationSchemas";
 import { useLocation, useNavigate } from "react-router-dom";
-import Fetchdata from "../Component/FetchData";
+import { FormDataFetch } from "../Component/FetchData";
+import { Buttons } from "../Component/Buttons";
 
 const AddCoupan = () => {
   const [ICON, setIcon] = useState("");
@@ -34,13 +35,13 @@ const AddCoupan = () => {
           formData.append(key, data[key]);
         }
       }
-
       try {
-        const response = await fetch("http://localhost:8080/registercoupan", {
-          method: "POST",
-          body: formData,
-        }).then(res => res.json(res)).then(res => alert(res.mes))
-        .then(() => Navigate('/coupan/manage'));    
+        const response = await FormDataFetch(
+          "http://localhost:8080/registercoupan",
+          formData
+        )
+          .then((res) => alert(res.mes))
+          .then(() => Navigate("/coupan/manage"));
       } catch (e) {
         alert(e);
       }
@@ -64,14 +65,7 @@ const AddCoupan = () => {
         <div>
           <h3>Add Coupan </h3>
         </div>
-        <div>
-          <button
-            className="btn btn-success rounded-0"
-            onClick={() => Navigate("/brand/register")}
-          >
-            Add Brand
-          </button>
-        </div>
+        <Buttons name={'Add Brand'} color={'success'} func={() => Navigate("/brand/register")} />
       </div>
       <div className="conatainer m-4">
         {Data ? (

@@ -5,6 +5,7 @@ import Fetchdata, {
   FetchCategoryList,
 } from "../Component/FetchData";
 import { useNavigate } from "react-router-dom";
+import { Buttons } from "../Component/Buttons";
 
 const ManageBrands = () => {
   useEffect(() => {
@@ -67,12 +68,11 @@ const ManageBrands = () => {
           <h3>Manage Brand</h3>
         </div>
         <div>
-          <button
-            className="btn btn-success rounded-0"
-            onClick={() => Navigate("/brand/register")}
-          >
-            Add Brand
-          </button>
+          <Buttons
+            name={" Add Brand"}
+            func={() => Navigate("/brand/register")}
+            color={"success"}
+          />
         </div>
       </div>
       <div className="head d-flex justify-content-center">
@@ -88,21 +88,23 @@ const ManageBrands = () => {
             {CategoryList &&
               CategoryList.map((key) => {
                 return (
-                    <option
-                      className="dropdown-item"
-                      value={key.CategoryName}
-                      key={key.ID}
-                    >
-                      {key.CategoryName}
-                    </option>
+                  <option
+                    className="dropdown-item"
+                    value={key.CategoryName}
+                    key={key.ID}
+                  >
+                    {key.CategoryName}
+                  </option>
                 );
               })}
           </select>
         </div>
         <div className="m-1">
-          <button className="btn btn-warning rounded-0" onClick={() => setfilterData(BrandList)}>
-            Reset
-          </button>
+          <Buttons
+            name={"Reset"}
+            func={() => setfilterData(BrandList)}
+            color={"warning"}
+          />
         </div>
       </div>
       <div className="body d-flex justify-content-center gap-3 flex-wrap">
@@ -146,38 +148,31 @@ const ManageBrands = () => {
                         </div>
                       </div>
                       <div className="d-flex button-section flex-wrap gap-2">
-                        <div>
-                          <button
-                            className="btn btn-danger rounded-0"
-                            onClick={() => handleDeletebrand(key.ID, key.BrandName)}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                        <div>
-                          <button
-                            className="btn btn-light rounded-0"
-                            onClick={() =>
-                              Navigate("/brand/update", {
-                                state: { key, CategoryList },
-                              })
-                            }
-                          >
-                            Update
-                          </button>
-                        </div>
-                        <div>
-                          <button
-                            className="btn btn-primary rounded-0"
-                            onClick={() => {
-                              Navigate("/coupan/register", {
-                                state: { data: key, CategoryList },
-                              });
-                            }}
-                          >
-                            Add Coupan
-                          </button>
-                        </div>
+                        <Buttons
+                          name={"Delete"}
+                          func={() => handleDeletebrand(key.ID, key.BrandName)}
+                          color={"danger"}
+                        />
+
+                        <Buttons
+                          name={"Update"}
+                          func={() =>
+                            Navigate("/brand/update", {
+                              state: { key, CategoryList },
+                            })
+                          }
+                          color={"light"}
+                        />
+
+                        <Buttons
+                          name={"Add Coupan"}
+                          func={() => {
+                            Navigate("/coupan/register", {
+                              state: { data: key, CategoryList },
+                            });
+                          }}
+                          color={"primary"}
+                        />
                       </div>
                     </div>
                   </div>

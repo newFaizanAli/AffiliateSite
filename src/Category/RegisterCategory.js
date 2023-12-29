@@ -5,6 +5,7 @@ import Fetchdata, {
   FetchCategoryList,
   DeleteItems,
 } from "../Component/FetchData";
+import { Buttons } from "../Component/Buttons";
 
 const RegisterCategory = () => {
   useEffect(() => {
@@ -131,19 +132,9 @@ const RegisterCategory = () => {
                       </div>
                     </td>
                     <td>
-                      <div className="m-1 p-0">
-                        <button
-                          className="btn btn-outline-danger m-1 p-1 rounded-0"
-                          onClick={() => handleDeleteCategory(key.ID)}
-                        >
-                          Delete
-                        </button>
-                        <button
-                          className="btn btn-outline-primary p-1 m-1 rounded-0"
-                          onClick={() => handleUpdateCategory(key)}
-                        >
-                          Update
-                        </button>
+                      <div className="m-1 p-0 d-flex gap-2 justify-content-center flex-wrap">
+                        <Buttons name={'Delete'} color={'danger'} func={() => handleDeleteCategory(key.ID)} />
+                        <Buttons name={'Update'} color={'primary'} func={() => handleUpdateCategory(key)} />    
                       </div>
                     </td>
                   </tr>

@@ -1,4 +1,4 @@
-const { InsertQuery, GetValues, DeleteQuery } = require("./CrudOperation");
+const { InsertQuery, GetValues, DeleteQuery, UpdateQuery } = require("./CrudOperation");
 const { GetLastID } = require("./ManageCoupan");
 
 const RegisterUser = async (Connection, Data) => {
@@ -38,4 +38,16 @@ const DeleteUser = async (ConnectionFunc, ID) => {
   return result;
 };
 
-module.exports = { RegisterUser, RegisterUserList, DeleteUser };
+const UpdateUser = async (Connection, obj) => {
+  let filter = { ID: obj.ID };
+  const result = await UpdateQuery(
+    Connection,
+    "UserDB",
+    "RegisterUser",
+    filter,
+    obj
+  );
+  return result;
+};
+
+module.exports = { RegisterUser, RegisterUserList, DeleteUser, UpdateUser };

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FetchUserList, DeleteItems } from "../Component/FetchData";
+import { Buttons } from "../Component/Buttons";
+import { useNavigate } from "react-router-dom";
 
 const ManageUsers = () => {
   useEffect(() => {
@@ -7,7 +9,8 @@ const ManageUsers = () => {
   }, []);
 
   const [UserList, setUserList] = useState([]);
-
+  const Navigate = useNavigate()
+  
   const MainFunc = async () => {
     await getUser();
   };
@@ -68,19 +71,10 @@ const ManageUsers = () => {
                         <td>{key.Contact}</td>
                         <td>{key.Email}</td>
                         <td>
-                          <div className="m-1 p-0">
-                            <button
-                              className="btn btn-outline-danger m-1 p-1 rounded-0"
-                              onClick={() => handleDeleteUser(key.ID)}
-                            >
-                              Delete
-                            </button>
-                            {/* <button
-                          className="btn btn-outline-primary p-1 m-1 rounded-0"
-                          onClick={() => handleUpdateCategory(key)}
-                        >
-                          Update
-                        </button> */}
+                          <div className="m-1 p-0 d-flex flex-wrap gap-2 justify-content-center">
+                            <Buttons name={'Delete'} color={'outline-danger'} func={() => handleDeleteUser(key.ID)} />
+                            <Buttons name={'Update'} color={'outline-primary'} func={() => Navigate('/updateuser', {state : key})} />
+                            
                           </div>
                         </td>
                       </tr>

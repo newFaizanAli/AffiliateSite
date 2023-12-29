@@ -1,43 +1,49 @@
-import React from "react";
-import { useFormik } from "formik";
-import { RegisterUserSchema } from "../Component/ValidationSchemas";
-import Fetchdata from "../Component/FetchData";
+import React from 'react'
+import { useLocation } from 'react-router-dom'
+import { useFormik } from 'formik'
+import { UpdateUserSchema } from '../Component/ValidationSchemas'
+import Fetchdata from '../Component/FetchData'
 
-const RegisterUser = () => {
-    
-  const SaveUser = async(data) => {
+const UpdateUser = () => {
+  const location = useLocation()
+  const Data = location.state ? location.state : '';
+  
+ 
+
+  const handleUpdate = async(data) => {
     try {
-      const response = await Fetchdata("POST", "http://localhost:8080/registeruser",  data );
-      if (response) {
-        alert(response.mes)
+        const response = await Fetchdata("POST", "http://localhost:8080/updateuser",  {...data, ID : Data.ID} );
+        if (response) {
+          alert(response.mes)
+        }
+      } catch (e) {
+          alert(e)
       }
-    } catch (e) {
-        alert(e)
-    }
-  };
+  }
 
-  const RegisterUserValues = {
-    Name: "",
-    Username: "",
-    Email: "",
-    Contact: "",
-    Password: "",
+  const UpdateUserValues = {
+    Name: Data.Name ? Data.Name : '',
+    UserName: Data.UserName ? Data.UserName : '',
+    Email: Data.Email ? Data.Email : '' ,
+    Contact: Data.Contact ? Data.Contact : '',
   };
 
   const formik = useFormik({
-    initialValues: RegisterUserValues,
-    validationSchema: RegisterUserSchema,
+    initialValues: UpdateUserValues,
+    validationSchema: UpdateUserSchema,
     onSubmit: (values) => {
-      SaveUser(values);
+        handleUpdate(values)
     },
   });
 
   return (
     <>
-      <div className="row d-felx flex-wrap justify-content-center m-2">
+      {
+        Data ?
+        <div className="row d-felx flex-wrap justify-content-center m-2">
         <div className="col-12 col-md-5 card shadow-lg p-2 text-center">
           <div className="p-3">
-            <h2 className="h2"> SignUp User </h2>
+            <h2 className="h2"> Update User </h2>
           </div>
           <form onSubmit={formik.handleSubmit}>
             <div className="content_section">
@@ -66,12 +72,12 @@ const RegisterUser = () => {
                   <input
                     type="text"
                     className="form-control rounded-0"
-                    name="Username"
+                    name="UserName"
                     onChange={formik.handleChange}
-                    value={formik.values.Username}
+                    value={formik.values.UserName}
                   />
-                  {formik.touched.Username && formik.errors.Username ? (
-                    <div className="text-danger">{formik.errors.Username}</div>
+                  {formik.touched.UserName && formik.errors.UserName ? (
+                    <div className="text-danger">{formik.errors.UserName}</div>
                   ) : null}
                 </div>
               </div>
@@ -109,23 +115,7 @@ const RegisterUser = () => {
                   ) : null}
                 </div>
               </div>
-              <div className="d-flex justify-content-center p-2">
-                <div className="col-4">
-                  <label htmlFor="">Your Password</label>
-                </div>
-                <div className="col-8">
-                  <input
-                    type="text"
-                    className="form-control rounded-0"
-                    name="Password"
-                    onChange={formik.handleChange}
-                    value={formik.values.Password}
-                  />
-                  {formik.touched.Password && formik.errors.Password ? (
-                    <div className="text-danger">{formik.errors.Password}</div>
-                  ) : null}
-                </div>
-              </div>
+             
               <div className="d-flex justify-content-center p-2">
                 <button className="btn btn-success rounded-0" type="submit">
                   Register
@@ -134,10 +124,13 @@ const RegisterUser = () => {
             </div>
           </form>
         </div>
-      </div>
+      </div> : <div>Kindly Update User By selecting user from Users List, </div>}
     </>
   );
   
-};
+}
 
-export default RegisterUser;
+export default UpdateUser
+
+
+

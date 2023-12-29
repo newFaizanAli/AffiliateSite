@@ -8,6 +8,13 @@ export const RegisterUserSchema = Yup.object({
     Password: Yup.string().required('Password is Required'),
 });
 
+export const UpdateUserSchema = Yup.object({
+    Name: Yup.string().required('Name is Required'),
+    UserName: Yup.string().required('User Name Type is Required'),
+    Email: Yup.string().email().required('Email is Required'),
+    Contact: Yup.number().required('Contact is Required'),
+});
+
 export const UserLoginSchema = Yup.object({
     Email: Yup.string().email().required('Email is Required'),
     Password: Yup.string().required('Password is Required'),
@@ -16,7 +23,7 @@ export const UserLoginSchema = Yup.object({
 
 export const UserCategorySchema = Yup.object({
     CategoryName: Yup.string().required(' Name is Required'), 
-})
+});
 
 export const RegisterBarndSchema = Yup.object({
     BrandName: Yup.string().required('Name is Required'),

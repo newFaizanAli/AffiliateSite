@@ -80,18 +80,12 @@ const NavbarComp = () => {
               </li>
             </ul>
             <div className="logout ms-2">
-              {/* <Link
+              <Link
                 className="btn btn-outline-primary  rounded-0 shadow-sm"
                 to={"/registeruser"}
               >
                 SignUp
-              </Link> */}
-              <button
-                className="btn btn-outline-primary  rounded-0 shadow-sm"
-                onClick={() => hanldeLogout()}
-              >
-                SignUp
-              </button>
+              </Link>
             </div>
             <div className="logout ms-2">
               <Link

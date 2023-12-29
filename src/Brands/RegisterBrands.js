@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Fetchdata, {
+import {
   FetchCategoryList,
   FetchUserList,
   FormDataFetch,
@@ -48,15 +48,10 @@ const RegisterBrands = () => {
     formData.append("UserEmail", values.UserEmail);
     formData.append("CategoryName", values.CategoryName);
     formData.append("imgPath", imgPath);
-
-  
-    try {
-      const response = await fetch("http://localhost:8080/registerbrand", {
-        method: "POST",
-        body: formData,
-      }).then(res => res.json(res)).then(res => alert(res.mes)).then(() => Navigate('/brand'));
-      
-    } catch (e) {
+    try{
+      const response = await FormDataFetch("http://localhost:8080/registerbrand",formData).then(res => alert(res.mes)).then(() => Navigate('/brand'));
+    }
+    catch(e){
       alert(e);
     }
   };
@@ -110,12 +105,6 @@ const RegisterBrands = () => {
                     name="BrandIcon"
                     accept="image/*"
                     placeholder="Your Icon"
-                    // onChange={(e) => {
-                    //   // setimgPath(URL.createObjectURL(e.target.files[0]));
-                    //   // setimgPath(e.target.files[0]);
-                    //   // formik.handleChange(e)}}
-                    //   //  value={formik.values.BrandIcon
-                    // }}
                     onChange={(e) => {
                       const file = e.target.files[0];
                       setimgPath(file);
@@ -214,6 +203,7 @@ const RegisterBrands = () => {
                   <button className="btn btn-danger rounded-0" type="submit">
                     Register
                   </button>
+                 
                 </div>
               </div>
             </div>
