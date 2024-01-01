@@ -33,6 +33,13 @@ export const RegisterBarndSchema = Yup.object({
     CategoryName: Yup.string().required('Category is Required'),
 });
 
+export const UpdateRegisterBrandSchema = Yup.object({
+    BrandName: Yup.string().required('Name is Required'),
+    UserEmail: Yup.string().email().required('Email is Required'),
+    BrandCountry: Yup.string().required('Country is Required'),
+    CategoryName: Yup.string().required('Category is Required'),
+});
+
 
 export const RegisterCoupanScehma= Yup.object({
     // ICON: Yup.string().required('ICON is Required'),

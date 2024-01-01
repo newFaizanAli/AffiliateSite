@@ -5,7 +5,10 @@ import Fetchdata, {
   FetchCategoryList,
   DeleteItems,
 } from "../Component/FetchData";
+import { BoxModel, handelCloseModelBox, handelOpenModelBox } from "../Component/BoxModel";
 import { Buttons } from "../Component/Buttons";
+
+
 
 const RegisterCategory = () => {
   useEffect(() => {
@@ -13,13 +16,15 @@ const RegisterCategory = () => {
   }, []);
 
   const [CategoryList, setCategoryList] = useState([]);
+  const [Mes, setMes] = useState()
 
   const handleCategoryList = async () => {
     const response = await FetchCategoryList();
     if (response && response.length > 0) {
       setCategoryList(response);
     } else {
-      alert("No Record Found ... ");
+      setMes('No Record Found ...')
+      handelOpenModelBox("dialog");
     }
   };
 
@@ -30,16 +35,18 @@ const RegisterCategory = () => {
       data
     );
     if (response) {
-      alert(response.mes);
+      // alert(response.mes);
+      setMes(response.mes)
+      handelOpenModelBox("dialog");
       handleCategoryList();
     }
   };
 
   const handleDeleteCategory = async (ID) => {
-    await DeleteItems(ID, "http://localhost:8080/deletecatgeory").then(
-      handleCategoryList()
-    );
+    await DeleteItems(ID, "http://localhost:8080/deletecatgeory")
+    handleCategoryList()
   };
+
 
   const handleUpdateCategory = async (key) => {
     let updatedText = prompt("Enter Category .. ");
@@ -54,7 +61,9 @@ const RegisterCategory = () => {
         { CategoryName: updatedText, ID: key.ID }
       );
       if (response) {
-        alert(response.mes);
+        // alert(response.mes);
+        setMes(response.mes)
+        handelOpenModelBox('dialog')
         handleCategoryList();
       }
     }
@@ -80,6 +89,9 @@ const RegisterCategory = () => {
           <h3>Manage Category </h3>
         </div>
       </div>
+      <dialog className=" col-lg-4 col-8 border-0 rounded-2 shadow-sm" id="dialog">
+           <BoxModel mes={Mes} closeFunc={() => handelCloseModelBox("dialog")} />
+      </dialog>
       <form onSubmit={formik.handleSubmit}>
         <div className="d-flex justify-content-center gap-2 m-2">
           <div>
@@ -97,7 +109,7 @@ const RegisterCategory = () => {
             ) : null}
           </div>
           <div>
-            <button className="btn btn-danger rounded-0">Add New</button>
+            <button className="btn btn-danger rounded-0" type="submit">Add New</button>
           </div>
         </div>
       </form>
@@ -134,7 +146,9 @@ const RegisterCategory = () => {
                     <td>
                       <div className="m-1 p-0 d-flex gap-2 justify-content-center flex-wrap">
                         <Buttons name={'Delete'} color={'danger'} func={() => handleDeleteCategory(key.ID)} />
-                        <Buttons name={'Update'} color={'primary'} func={() => handleUpdateCategory(key)} />    
+                        {/* <Buttons name={'Update'} color={'primary'} func={() => handleUpdateCategory(key)} />     */}
+                        <Buttons name={'Update'} color={'primary'} func={(e) => handleUpdateCategory(e, key)} />    
+
                       </div>
                     </td>
                   </tr>

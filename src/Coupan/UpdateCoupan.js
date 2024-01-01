@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { RegisterCoupanScehma } from "../Component/ValidationSchemas";
 import { useLocation } from "react-router-dom";
 import Fetchdata from "../Component/FetchData";
+import { BoxModel, handelCloseModelBox, handelOpenModelBox } from "../Component/BoxModel";
+
 
 const UpdateCoupan = () => {
 
   const location = useLocation()
   const Data = location.state
+  const [Mes, setMes] = useState('')
 
   const RegisterCoupanValues = {
     ...Data
@@ -17,7 +20,8 @@ const UpdateCoupan = () => {
    try{
      const response = await Fetchdata("POST", "http://localhost:8080/updatecoupan",  data );
     if (response) {
-       alert(response.mes)
+      setMes(response.mes)
+      handelOpenModelBox('dialog') 
     }
   } catch (e) {
       alert(e)
@@ -41,6 +45,9 @@ const UpdateCoupan = () => {
             <div className="row d-flex flex-wrap col-12 m-3">
               <h4 className="h4">Update Coupan</h4>
             </div>
+            <dialog className=" col-lg-4 col-8 border-0 rounded-2 shadow-sm" id="dialog">
+           <BoxModel mes={Mes} closeFunc={() => handelCloseModelBox("dialog")} />
+         </dialog>
             <form onSubmit={formik.handleSubmit}>
               <div className="d-flex flex-wrap justify-content-center">
                 <div className="row d-flex flex-wrap col-12 mt-2">

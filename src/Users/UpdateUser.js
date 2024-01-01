@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { UpdateUserSchema } from '../Component/ValidationSchemas'
 import Fetchdata from '../Component/FetchData'
+import { BoxModel, handelOpenModelBox, handelCloseModelBox } from '../Component/BoxModel'
+
 
 const UpdateUser = () => {
   const location = useLocation()
   const Data = location.state ? location.state : '';
-  
+  const [Mes, setMes] = useState('')
  
 
   const handleUpdate = async(data) => {
     try {
         const response = await Fetchdata("POST", "http://localhost:8080/updateuser",  {...data, ID : Data.ID} );
         if (response) {
-          alert(response.mes)
+          setMes(response.mes)
+          handelOpenModelBox('dialog')
         }
       } catch (e) {
           alert(e)
@@ -45,6 +48,9 @@ const UpdateUser = () => {
           <div className="p-3">
             <h2 className="h2"> Update User </h2>
           </div>
+          <dialog className=" col-lg-4 col-8 border-0 rounded-2 shadow-sm" id="dialog">
+           <BoxModel mes={Mes} closeFunc={() => handelCloseModelBox("dialog")} />
+         </dialog>
           <form onSubmit={formik.handleSubmit}>
             <div className="content_section">
               <div className="d-flex justify-content-center p-2">
@@ -118,7 +124,7 @@ const UpdateUser = () => {
              
               <div className="d-flex justify-content-center p-2">
                 <button className="btn btn-success rounded-0" type="submit">
-                  Register
+                  Update
                 </button>
               </div>
             </div>

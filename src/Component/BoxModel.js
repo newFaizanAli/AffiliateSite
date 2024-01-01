@@ -30,4 +30,6 @@ const handelCloseModelBox = (id) => {
   dialogElem.close();
 };
 
+
+
 export { BoxModel, handelCloseModelBox, handelOpenModelBox };

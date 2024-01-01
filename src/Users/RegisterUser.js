@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { RegisterUserSchema } from "../Component/ValidationSchemas";
 import Fetchdata from "../Component/FetchData";
+import { BoxModel, handelOpenModelBox, handelCloseModelBox } from "../Component/BoxModel";
+
 
 const RegisterUser = () => {
     
+  const [Mes, setMes] = useState('')
+
+  const handleModelBox = (resp) => {
+    setMes(resp)
+    handelOpenModelBox('dialog')
+  }
+
+
   const SaveUser = async(data) => {
     try {
       const response = await Fetchdata("POST", "http://localhost:8080/registeruser",  data );
       if (response) {
-        alert(response.mes)
+        handleModelBox(response.mes)
       }
     } catch (e) {
         alert(e)
     }
   };
 
+  
   const RegisterUserValues = {
     Name: "",
     Username: "",
@@ -34,11 +45,16 @@ const RegisterUser = () => {
 
   return (
     <>
+
+
       <div className="row d-felx flex-wrap justify-content-center m-2">
         <div className="col-12 col-md-5 card shadow-lg p-2 text-center">
           <div className="p-3">
             <h2 className="h2"> SignUp User </h2>
           </div>
+          <dialog className=" col-lg-4 col-8 border-0 rounded-2 shadow-sm" id="dialog">
+           <BoxModel mes={Mes} closeFunc={() => handelCloseModelBox("dialog")} />
+          </dialog>
           <form onSubmit={formik.handleSubmit}>
             <div className="content_section">
               <div className="d-flex justify-content-center p-2">

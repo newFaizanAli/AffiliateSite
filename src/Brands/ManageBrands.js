@@ -6,6 +6,8 @@ import Fetchdata, {
 } from "../Component/FetchData";
 import { useNavigate } from "react-router-dom";
 import { Buttons } from "../Component/Buttons";
+import { BoxModel, handelCloseModelBox, handelOpenModelBox } from "../Component/BoxModel";
+
 
 const ManageBrands = () => {
   useEffect(() => {
@@ -15,12 +17,19 @@ const ManageBrands = () => {
   const [BrandList, setBrandList] = useState([]);
   const [CategoryList, setCategroyList] = useState([]);
   const [filterData, setfilterData] = useState([]);
+  const [Mes, setMes] = useState('')
   const Navigate = useNavigate();
 
   async function MainFunc() {
     await getBrandList();
     await getCategory();
   }
+
+  const handleModelBox = (resp) => {
+    setMes(resp)
+    handelOpenModelBox('dialog')
+  }
+
 
   let handleFilterCategory = (v) => {
     let data = [...BrandList].filter((e) => {
@@ -36,7 +45,7 @@ const ManageBrands = () => {
       setfilterData(items);
       console.log(items);
     } else {
-      alert("No Brand Found Kindly Add Brand");
+      handleModelBox("No Brand Found Kindly Add Brand")
     }
   };
 
@@ -45,7 +54,7 @@ const ManageBrands = () => {
     if (items && items.length > 0) {
       setCategroyList(items);
     } else {
-      alert("No Category Found Kindly Add Category");
+      handleModelBox("No Category Found Kindly Add Category")
     }
   }
 
@@ -56,7 +65,7 @@ const ManageBrands = () => {
       { ID, Name }
     );
     if (response) {
-      alert(response.mes);
+      handleModelBox(response.mes)
       getBrandList();
     }
   };
@@ -67,6 +76,9 @@ const ManageBrands = () => {
         <div>
           <h3>Manage Brand</h3>
         </div>
+        <dialog className=" col-lg-4 col-8 border-0 rounded-2 shadow-sm" id="dialog">
+           <BoxModel mes={Mes} closeFunc={() => handelCloseModelBox("dialog")} />
+       </dialog> 
         <div>
           <Buttons
             name={" Add Brand"}

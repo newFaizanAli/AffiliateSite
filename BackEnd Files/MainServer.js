@@ -142,7 +142,7 @@ server.post("/updatebrand", async (req, resp) => {
   let result = await Promise.resolve(
     UpdateBrand(ConnectionFunc, req.body)
   ).then((res) => {
-    return res;
+    return res; 
   });
   resp.json(result);
 });
@@ -291,7 +291,7 @@ server.post("/updateuser", async (req, resp) => {
 server.post("/registeruser", async (req, resp) => {
   let salt = bcrypt.genSaltSync(saltRound);
   let hashPass = bcrypt.hashSync(req.body.Password, salt);
-  let Data = {
+  let Data = { 
     Name: req.body.Name,
     UserName: req.body.Username,
     Contact: req.body.Contact,

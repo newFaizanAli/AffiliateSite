@@ -5,6 +5,7 @@ import Fetchdata, {
 } from "../Component/FetchData";
 import { useNavigate } from "react-router-dom";
 import { Buttons } from "../Component/Buttons";
+import { handelOpenModelBox, BoxModel, handelCloseModelBox } from "../Component/BoxModel";
 
 const ManageCoupan = () => {
   useEffect(() => {
@@ -16,10 +17,16 @@ const ManageCoupan = () => {
   const [filterCoupanList, setfilterCoupanList] = useState([]);
   const [BrandList, setBrandList] = useState([]);
   const [CategoryList, setCategroyList] = useState("");
+  const [Mes, setMes] = useState('')
 
   const MainFunc = async () => {
     await getCoupans();
   };
+
+  const handleModelBox = (resp) => {
+   setMes(resp)
+   handelOpenModelBox('dialog')
+  }
 
   const handleShortURL = async (shortURL) => {
     // console.log(shortURL)
@@ -35,7 +42,7 @@ const ManageCoupan = () => {
       getCoupans(response.url, "_blank");
     } else {
       if (response.mes) {
-        alert(response.mes);
+        alert(response.mes)
       }
     }
   };
@@ -74,7 +81,7 @@ const ManageCoupan = () => {
       setBrandList([...new Set(items.map((item) => item.BrandName))]);
       setCategroyList([...new Set(items.map((item) => item.Category))]);
     } else {
-      alert("No Coupan Found Kindly Add Coupan");
+      handleModelBox("No Coupan Found Kindly Add Coupan")
     }
   }
 
@@ -91,6 +98,9 @@ const ManageCoupan = () => {
             func={() => Navigate("/brand")}
           />
         </div>
+        <dialog className=" col-lg-4 col-8 border-0 rounded-2 shadow-sm" id="dialog">
+           <BoxModel mes={Mes} closeFunc={() => handelCloseModelBox("dialog")} />
+         </dialog>
         {/* Filter Section */}
         <div className="d-flex justify-content-center gap-3 mb-2 flex-wrap">
           <div>

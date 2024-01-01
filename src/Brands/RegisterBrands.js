@@ -7,6 +7,8 @@ import {
 import { RegisterBarndSchema } from "../Component/ValidationSchemas";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
+import { BoxModel, handelCloseModelBox, handelOpenModelBox } from "../Component/BoxModel";
+
 
 const RegisterBrands = () => {
   useState(() => {
@@ -16,6 +18,7 @@ const RegisterBrands = () => {
   const [CategroyList, setCategroyList] = useState([]);
   const [UserList, setUserList] = useState([]);
   const [imgPath, setimgPath] = useState({});
+  const [Mes, setMes] = useState('')
   const Navigate= useNavigate()
 
   async function MainFunc() {
@@ -23,12 +26,17 @@ const RegisterBrands = () => {
     await getUsers();
   }
 
+  const handleModelBox = (resp) => {
+    setMes(resp)
+    handelOpenModelBox('dialog')
+  }
+
   async function getCategory() {
     let items = await FetchCategoryList();
     if (items && items.length > 0) {
       setCategroyList(items);
     } else {
-      alert("No Category Found Kindly Add Category");
+      handleModelBox('No Category Found Kindly Add Category')
     }
   }
 
@@ -37,7 +45,7 @@ const RegisterBrands = () => {
     if (items && items.length > 0) {
       setUserList(items);
     } else {
-      alert("No Category Found Kindly Add Category");
+      handleModelBox('No Category Found Kindly Add Category')
     }
   }
 
@@ -49,7 +57,8 @@ const RegisterBrands = () => {
     formData.append("CategoryName", values.CategoryName);
     formData.append("imgPath", imgPath);
     try{
-      const response = await FormDataFetch("http://localhost:8080/registerbrand",formData).then(res => alert(res.mes)).then(() => Navigate('/brand'));
+       await FormDataFetch("http://localhost:8080/registerbrand",formData).then(res => handleModelBox(res.mes)).then(() => Navigate('/brand'));
+     
     }
     catch(e){
       alert(e);
@@ -74,6 +83,9 @@ const RegisterBrands = () => {
 
   return (
     <>
+    <dialog className=" col-lg-4 col-8 border-0 rounded-2 shadow-sm" id="dialog">
+           <BoxModel mes={Mes} closeFunc={() => handelCloseModelBox("dialog")} />
+      </dialog>
       <form onSubmit={formik.handleSubmit}>
         <div className="row d-felx flex-wrap justify-content-center m-2">
           <div className="col-12 col-md-6 card shadow-sm p-2 text-center m-5">

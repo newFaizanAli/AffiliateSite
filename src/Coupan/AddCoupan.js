@@ -4,10 +4,13 @@ import { RegisterCoupanScehma } from "../Component/ValidationSchemas";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FormDataFetch } from "../Component/FetchData";
 import { Buttons } from "../Component/Buttons";
+import { BoxModel, handelCloseModelBox, handelOpenModelBox } from "../Component/BoxModel";
+
 
 const AddCoupan = () => {
   const [ICON, setIcon] = useState("");
   const location = useLocation();
+  const [Mes, setMes] = useState('')
   const Data = location.state ? location.state.data : null;
   const Navigate = useNavigate();
 
@@ -25,6 +28,13 @@ const AddCoupan = () => {
     Category: Data ? Data.CategoryName : "",
   };
 
+
+  const handleModelBox = (resp) => {
+    setMes(resp)
+    handelOpenModelBox('dialog')
+  }
+
+
   const addCoupan = async (values) => {
     if (ICON) {
       let data = { ...values, ICON };
@@ -36,17 +46,17 @@ const AddCoupan = () => {
         }
       }
       try {
-        const response = await FormDataFetch(
+        await FormDataFetch(
           "http://localhost:8080/registercoupan",
           formData
         )
-          .then((res) => alert(res.mes))
+          .then((res) => handleModelBox(res.mes))
           .then(() => Navigate("/coupan/manage"));
       } catch (e) {
         alert(e);
       }
     } else {
-      alert("Kinldy Add Coupan ICON");
+      handleModelBox("Kinldy Add Coupan ICON");
     }
   };
 
@@ -67,6 +77,9 @@ const AddCoupan = () => {
         </div>
         <Buttons name={'Add Brand'} color={'success'} func={() => Navigate("/brand/register")} />
       </div>
+      <dialog className=" col-lg-4 col-8 border-0 rounded-2 shadow-sm" id="dialog">
+           <BoxModel mes={Mes} closeFunc={() => handelCloseModelBox("dialog")} />
+         </dialog>
       <div className="conatainer m-4">
         {Data ? (
           <div className="card shadow-sm m-3 p-4">

@@ -1,4 +1,8 @@
-import { useNavigate } from "react-router-dom";
+
+
+
+
+
 
 function Fetchdata(method, url, body) {
   return fetch(url, {
@@ -17,10 +21,10 @@ function Fetchdata(method, url, body) {
       return res.json();
     })
     .catch((err) => {
-      // throw err;
       alert(err)
     });
 }
+
 
 let FetchCategoryList = async () => {
   const response = await Fetchdata("GET", "http://localhost:8080/categorylist");

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FetchUserList, DeleteItems } from "../Component/FetchData";
 import { Buttons } from "../Component/Buttons";
 import { useNavigate } from "react-router-dom";
+import { BoxModel, handelCloseModelBox, handelOpenModelBox } from "../Component/BoxModel";
 
 const ManageUsers = () => {
   useEffect(() => {
@@ -9,11 +10,17 @@ const ManageUsers = () => {
   }, []);
 
   const [UserList, setUserList] = useState([]);
+  const [Mes, setMes] = useState('')
   const Navigate = useNavigate()
   
   const MainFunc = async () => {
     await getUser();
   };
+  
+  const handleModelBox = (resp) => {
+    setMes(resp)
+    handelOpenModelBox('dialog')
+  }
 
   const handleDeleteUser = async (ID) => {
     await DeleteItems(
@@ -27,7 +34,7 @@ const ManageUsers = () => {
     if (users && users.length > 0) {
       setUserList(users);
     } else {
-      alert("No User Found");
+      handleModelBox("No User Found")
     }
   };
 
@@ -39,6 +46,9 @@ const ManageUsers = () => {
             <h3>Manage User </h3>
           </div>
         </div>
+        <dialog className=" col-lg-4 col-8 border-0 rounded-2 shadow-sm" id="dialog">
+           <BoxModel mes={Mes} closeFunc={() => handelCloseModelBox("dialog")} />
+         </dialog>
         <div className="body">
         <table className="table shadow-sm table-bordered">
               <thead className="table-light text-center " key={"thead"}>
