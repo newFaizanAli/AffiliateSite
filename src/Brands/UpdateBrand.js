@@ -17,11 +17,11 @@ const UpdateBrand = () => {
       if (response) {
          alert(response.mes)
       }
-    } catch (e) {
+    } catch (e) { 
         alert(e)
     }
   };
-  
+
   const formik = useFormik({
     initialValues: RegisterBrandValues,
     validationSchema: UpdateRegisterBrandSchema,
